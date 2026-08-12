@@ -21,7 +21,7 @@ This project uses Tailwind v4 with **CSS-first configuration** — there is no `
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* Custom colors */
-  --color-brand-50:  #eff6ff;
+  --color-brand-50: #eff6ff;
   --color-brand-500: #3b82f6;
   --color-brand-900: #1e3a8a;
 }
@@ -36,16 +36,17 @@ This project uses Tailwind v4 with **CSS-first configuration** — there is no `
 
 ## Color System
 
-| Token | Purpose |
-|-------|---------|
-| `zinc-*` | Neutral grays — backgrounds, borders, text |
-| `brand-*` | Primary brand color (define per project in `@theme`) |
-| `red-*` | Destructive actions, error states |
-| `green-*` | Success states |
-| `yellow-*` / `amber-*` | Warning states |
-| `white` / `black` | Absolute white/black |
+| Token                  | Purpose                                              |
+| ---------------------- | ---------------------------------------------------- |
+| `zinc-*`               | Neutral grays — backgrounds, borders, text           |
+| `brand-*`              | Primary brand color (define per project in `@theme`) |
+| `red-*`                | Destructive actions, error states                    |
+| `green-*`              | Success states                                       |
+| `yellow-*` / `amber-*` | Warning states                                       |
+| `white` / `black`      | Absolute white/black                                 |
 
 **Semantic usage:**
+
 - Page backgrounds: `bg-white` / `bg-zinc-50`
 - Card surfaces: `bg-white` with `border border-zinc-200`
 - Body text: `text-zinc-900`
@@ -59,24 +60,25 @@ This project uses Tailwind v4 with **CSS-first configuration** — there is no `
 
 Fonts are loaded via `next/font/google` in the root layout and exposed as CSS variables:
 
-| Variable | Font | Use |
-|----------|------|-----|
+| Variable            | Font       | Use               |
+| ------------------- | ---------- | ----------------- |
 | `--font-geist-sans` | Geist Sans | All body text, UI |
-| `--font-geist-mono` | Geist Mono | Code, monospace |
+| `--font-geist-mono` | Geist Mono | Code, monospace   |
 
 **Type scale:**
 
-| Class | Use |
-|-------|-----|
-| `text-xs` | Labels, helper text, badges |
-| `text-sm` | Secondary body, form hints, table cells |
-| `text-base` | Primary body text |
-| `text-lg` | Section subheadings |
-| `text-xl` | Card titles |
-| `text-2xl` | Page headings |
-| `text-3xl`+ | Hero / marketing headings |
+| Class       | Use                                     |
+| ----------- | --------------------------------------- |
+| `text-xs`   | Labels, helper text, badges             |
+| `text-sm`   | Secondary body, form hints, table cells |
+| `text-base` | Primary body text                       |
+| `text-lg`   | Section subheadings                     |
+| `text-xl`   | Card titles                             |
+| `text-2xl`  | Page headings                           |
+| `text-3xl`+ | Hero / marketing headings               |
 
 **Font weight:**
+
 - `font-normal` — body text
 - `font-medium` — labels, button text, nav items
 - `font-semibold` — section headings, card titles
@@ -110,13 +112,13 @@ Use the default Tailwind spacing scale. Do not define custom spacing tokens unle
 
 ### Responsive breakpoints
 
-| Prefix | Width | Use |
-|--------|-------|-----|
-| (none) | 0px+ | Mobile first — always start here |
-| `sm:` | 640px+ | Large phones / small tablets |
-| `md:` | 768px+ | Tablets |
-| `lg:` | 1024px+ | Laptops |
-| `xl:` | 1280px+ | Desktops |
+| Prefix | Width   | Use                              |
+| ------ | ------- | -------------------------------- |
+| (none) | 0px+    | Mobile first — always start here |
+| `sm:`  | 640px+  | Large phones / small tablets     |
+| `md:`  | 768px+  | Tablets                          |
+| `lg:`  | 1024px+ | Laptops                          |
+| `xl:`  | 1280px+ | Desktops                         |
 
 **Pattern:** Design mobile-first, add responsive prefixes to override. Never write desktop-only styles without a mobile fallback.
 
@@ -202,7 +204,7 @@ Always handle all three states in any data-fetching component:
 Use `<LoadingSpinner>` from `@/components/shared/LoadingSpinner`:
 
 ```tsx
-if (loading) return <LoadingSpinner size="md" />
+if (loading) return <LoadingSpinner size="md" />;
 ```
 
 For full-page loads: `<FullPageSpinner />`
@@ -213,9 +215,12 @@ Use `<ErrorBoundary>` from `@/components/shared/ErrorBoundary` to wrap route sub
 For inline errors, show a plain message:
 
 ```tsx
-if (error) return (
-  <p className="text-sm text-red-600">{error.message ?? 'Something went wrong.'}</p>
-)
+if (error)
+  return (
+    <p className="text-sm text-red-600">
+      {error.message ?? "Something went wrong."}
+    </p>
+  );
 ```
 
 ### Empty
@@ -223,13 +228,14 @@ if (error) return (
 Use `<EmptyState>` from `@/components/shared/EmptyState`:
 
 ```tsx
-if (!data.length) return (
-  <EmptyState
-    icon={<UsersIcon className="size-8 text-zinc-400" />}
-    title="No users yet"
-    description="Users will appear here once they sign up."
-  />
-)
+if (!data.length)
+  return (
+    <EmptyState
+      icon={<UsersIcon className="size-8 text-zinc-400" />}
+      title="No users yet"
+      description="Users will appear here once they sign up."
+    />
+  );
 ```
 
 ---
@@ -257,44 +263,52 @@ Never use `width` and `height` props — use `className="size-*"` only.
 All forms use `react-hook-form` + `zod`. The pattern:
 
 ```tsx
-'use client'
+"use client";
 
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { toast } from 'sonner'
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { toast } from "sonner";
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
-})
-type FormValues = z.infer<typeof schema>
+  name: z.string().min(1, "Name is required"),
+});
+type FormValues = z.infer<typeof schema>;
 
 export function MyForm() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<FormValues>({
     resolver: zodResolver(schema),
-  })
+  });
 
   async function onSubmit(values: FormValues) {
-    const result = await myAction(values)
+    const result = await myAction(values);
     if (!result.success) {
-      toast.error(result.error ?? 'Something went wrong')
-      return
+      toast.error(result.error ?? "Something went wrong");
+      return;
     }
-    toast.success('Saved!')
+    toast.success("Saved!");
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="name" className="text-sm font-medium text-zinc-700">Name</label>
-        <input id="name" {...register('name')} className="..." />
-        {errors.name && <p className="text-xs text-red-600">{errors.name.message}</p>}
+        <label htmlFor="name" className="text-sm font-medium text-zinc-700">
+          Name
+        </label>
+        <input id="name" {...register("name")} className="..." />
+        {errors.name && (
+          <p className="text-xs text-red-600">{errors.name.message}</p>
+        )}
       </div>
       <button type="submit" disabled={isSubmitting} className="...">
-        {isSubmitting ? 'Saving...' : 'Save'}
+        {isSubmitting ? "Saving..." : "Save"}
       </button>
     </form>
-  )
+  );
 }
 ```
 
@@ -305,12 +319,12 @@ export function MyForm() {
 Use `sonner` (`toast` from `sonner`) for all user-facing feedback. The `<Toaster>` is mounted in `src/providers/index.tsx`.
 
 ```tsx
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
-toast.success('Profile updated')
-toast.error('Failed to save changes')
-toast.loading('Uploading...')
-toast.dismiss()
+toast.success("Profile updated");
+toast.error("Failed to save changes");
+toast.loading("Uploading...");
+toast.dismiss();
 ```
 
 Never use `alert()`, `confirm()`, or custom modal toasts.
@@ -355,3 +369,9 @@ Set `STITCH_API_KEY` in `.env` to enable the Stitch MCP server.
 - No custom color names that bypass the design token system
 - No third-party component libraries (MUI, Ant Design, Chakra) — use raw Tailwind
 - shadcn/ui components may be added per-project — if added, components live in `src/components/ui/` and must not be edited directly
+
+---
+
+## Figma Deliverable link
+
+- https://www.figma.com/design/Vtqx6njfvQuWy23OrlpZo1/PP1---Login---Team-Page?node-id=30-30893&t=4bQCK8DeY5ujGVv8-1
