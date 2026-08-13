@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -13,6 +13,7 @@ import { FullPageSpinner } from '@/components/shared/LoadingSpinner'
 export default function SignUpPage() {
   const router = useRouter()
   const { user, loading, signUpWithEmail, signInWithGoogle } = useAuth()
+  const [authError, setAuthError] = useState<string | null>(null)
 
   const {
     register,
@@ -40,14 +41,15 @@ export default function SignUpPage() {
   }
 
   const onSubmit = async (data: SignupInput) => {
+    setAuthError(null)
     try {
       await signUpWithEmail(data.email, data.password, data.displayName)
       router.push('/auth/signin?verification=sent')
     } catch (error: unknown) {
       if (error instanceof Error && error.message.includes('email-already-in-use')) {
-        toast.error('An account with this email already exists')
+        setAuthError('An account with this email already exists')
       } else {
-        toast.error('Failed to create account. Please try again.')
+        setAuthError('Failed to create account. Please try again.')
       }
     }
   }
@@ -56,8 +58,17 @@ export default function SignUpPage() {
     <div className="space-y-6">
       <div className="space-y-1 text-center">
         <h1 className="text-2xl font-bold tracking-tight">Create account</h1>
-        <p className="text-sm text-zinc-500">Get started for free</p>
+        <p className="text-sm text-zinc-400">Get started for free</p>
       </div>
+
+      {authError && (
+        <p
+          role="alert"
+          className="rounded-md bg-red-50 px-3 py-2 text-left text-sm text-red-600 dark:bg-red-950 dark:text-red-400"
+        >
+          {authError}
+        </p>
+      )}
 
       <button
         type="button"
@@ -96,7 +107,7 @@ export default function SignUpPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="space-y-1.5">
-          <label htmlFor="displayName" className="text-sm font-medium">
+          <label htmlFor="displayName" className="text-sm font-bold">
             Name
           </label>
           <input
@@ -117,7 +128,7 @@ export default function SignUpPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium">
+          <label htmlFor="email" className="text-sm font-bold">
             Email
           </label>
           <input
@@ -138,7 +149,7 @@ export default function SignUpPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="password" className="text-sm font-medium">
+          <label htmlFor="password" className="text-sm font-bold">
             Password
           </label>
           <input
@@ -159,7 +170,7 @@ export default function SignUpPage() {
         </div>
 
         <div className="space-y-1.5">
-          <label htmlFor="confirmPassword" className="text-sm font-medium">
+          <label htmlFor="confirmPassword" className="text-sm font-bold">
             Confirm password
           </label>
           <input
