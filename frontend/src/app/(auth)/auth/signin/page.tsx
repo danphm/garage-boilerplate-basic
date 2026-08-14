@@ -58,8 +58,8 @@ export default function SignInPage() {
     try {
       await signInWithGoogle()
       router.replace('/team')
-    } catch {
-      /* empty */
+    } catch (error) {
+      console.error('Google sign-in error:', error)
     }
   }
 
@@ -170,10 +170,7 @@ export default function SignInPage() {
 
       <p className="text-center text-base text-zinc-500">
         Don&apos;t have an account?{' '}
-        <Link
-          href="/auth/signup"
-          className="font-medium text-zinc-900 underline dark:text-white"
-        >
+        <Link href="/auth/signup" className="font-medium text-zinc-900 underline dark:text-white">
           Create one
         </Link>
       </p>
