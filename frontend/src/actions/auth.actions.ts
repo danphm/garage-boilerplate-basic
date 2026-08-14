@@ -18,7 +18,7 @@ export async function getServerSession() {
   if (!sessionCookie) return null
 
   try {
-    const decoded = await adminAuth.verifySessionCookie(sessionCookie, false)
+    const decoded = await adminAuth.verifySessionCookie(sessionCookie, true)
     return decoded
   } catch (error) {
     console.error('Session verification failed:', error)
