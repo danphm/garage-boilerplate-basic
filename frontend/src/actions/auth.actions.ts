@@ -20,7 +20,8 @@ export async function getServerSession() {
   try {
     const decoded = await adminAuth.verifySessionCookie(sessionCookie, true)
     return decoded
-  } catch {
+  } catch (error) {
+    console.error('Session verification failed:', error)
     return null
   }
 }
